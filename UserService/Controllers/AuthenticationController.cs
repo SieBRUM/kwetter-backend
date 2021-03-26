@@ -43,7 +43,7 @@ namespace UserService.Controllers
                 return Unauthorized("LOGIN.UNVERIFIED_ACCOUNT");
             }
 
-            var token = new TokenBuilder().BuildToken(loginModel.Username);
+            var token = new TokenBuilder().BuildToken(user.Id);
             var serializedToken = JsonSerializer.Serialize(token);
             return Ok(serializedToken);
         }

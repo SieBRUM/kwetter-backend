@@ -1,8 +1,10 @@
 ﻿using KweetService.Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace KweetService.Controllers
@@ -18,9 +20,11 @@ namespace KweetService.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
+        [HttpGet("timeline")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Kweet>>> GetKweets()
         {
+            string username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return await _dbContext.Kweets.ToListAsync();
         }
 

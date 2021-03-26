@@ -13,7 +13,5 @@ namespace UserService.Database
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-
-        public List<int> Permissions { get; set; }
     }
 }

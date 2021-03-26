@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace UserService.Database
 {
@@ -20,10 +18,12 @@ namespace UserService.Database
         public string Name { get; set; }
         [Required]
         public string Password { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime Created { get; set; }
 
         public Guid? VerifyEmailToken { get; set; }
 
         [ForeignKey("RoleId")]
-        public Role RoleId { get; set; }
+        public Role Role { get; set; }
     }
 }

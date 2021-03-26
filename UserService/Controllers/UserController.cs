@@ -19,7 +19,7 @@ namespace UserService.Controllers
             _context = context;
         }
 
-        [HttpPost("Register")]
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
             if (registerModel == null)
@@ -37,11 +37,6 @@ namespace UserService.Controllers
                 return BadRequest("REGISTER.NO_PASSWORD");
             }
 
-            if (string.IsNullOrWhiteSpace(registerModel.ConfirmPassword) || registerModel.Password != registerModel.ConfirmPassword)
-            {
-                return BadRequest("REGISTER.INCORRECT_CONFIRM_PASSWORD");
-            }
-
             if (string.IsNullOrWhiteSpace(registerModel.Email))
             {
                 return BadRequest("REGISTER.INCORRECT_EMAIL");
@@ -50,6 +45,16 @@ namespace UserService.Controllers
             if (string.IsNullOrWhiteSpace(registerModel.Name))
             {
                 return BadRequest("REGISTER.NO_NAME");
+            }
+
+            if(await _context.Users.AnyAsync(x => x.Username == registerModel.Username))
+            {
+                return BadRequest("REGISTER.USERNAME_TAKEN");
+            }
+
+            if (await _context.Users.AnyAsync(x => x.Email == registerModel.Email))
+            {
+                return BadRequest("REGISTER.EMAIL_TAKEN");
             }
 
             Guid? verifyToken = Guid.Empty;

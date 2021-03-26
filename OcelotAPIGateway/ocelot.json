@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/kweet",
+      "DownstreamPathTemplate": "/kweet/timeline",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,7 +9,29 @@
           "Port": 44354
         }
       ],
-      "UpstreamPathTemplate": "/api/kweet"
+      "UpstreamPathTemplate": "/api/kweet/timeline"
+    },
+    {
+      "DownstreamPathTemplate": "/user",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44389
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user"
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/login",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44389
+        }
+      ],
+      "UpstreamPathTemplate": "/api/authentication/login"
     }
   ],
   "GlobalConfiguration": {
