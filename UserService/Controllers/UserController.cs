@@ -63,7 +63,7 @@ namespace UserService.Controllers
                 verifyToken = Guid.NewGuid();
             } while (await _context.Users.AnyAsync(x => x.VerifyEmailToken == verifyToken));
 
-            User user = new()
+            var user = new User()
             {
                 Username = registerModel.Username,
                 Name = registerModel.Name,

@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+    rabbitmq:
+          image: rabbitmq:3-management-alpine
+          container_name: rabbitmq
+          volumes:
+            - rabbitmq:/rabbitmq
+          ports:
+            - "7100:15672"
+            - "7101:5672"
+    user-service:
+        build:
+            context: ./UserService
+            dockerfile: Dockerfile
+        container_name: userservice
+        ports:
+            - "0.0.0.0:8081:80"
+        depends_on:
+            - db
+    db:
+        image: "mcr.microsoft.com/mssql/server"
+        container_name: sqlserver
+        volumes:
+            - sqlvolume:/var/opt/mssql
+        environment:
+            SA_PASSWORD: "Your_password123"
+            ACCEPT_EULA: "Y"
+        ports:
+            - "0.0.0.0:1433:1433"
+volumes:
+    rabbitmq:
+        driver: local
+    sqlvolume:

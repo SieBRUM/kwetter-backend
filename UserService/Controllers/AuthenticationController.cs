@@ -26,12 +26,13 @@ namespace UserService.Controllers
             {
                 return BadRequest("LOGIN.MISSING_USERNAME");
             }
+
             if (string.IsNullOrWhiteSpace(loginModel.Password))
             {
                 return BadRequest("LOGIN.MISSING_PASSWORD");
             }
 
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Username == loginModel.Username && x.Password == loginModel.Password);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == loginModel.Username && x.Password == loginModel.Password);
             if (user == null)
             {
                 return BadRequest();
@@ -56,7 +57,7 @@ namespace UserService.Controllers
                 return BadRequest();
             }
 
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Username == verifyEmailTokenModel.Username && x.Password == verifyEmailTokenModel.Password);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == verifyEmailTokenModel.Username && x.Password == verifyEmailTokenModel.Password);
             
             if (user == null)
             {
