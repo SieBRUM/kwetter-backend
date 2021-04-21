@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UserService.Database;
 using UserService.DTO;
 using UserService.Helpers;
+using BC = BCrypt.Net.BCrypt;
 
 namespace UserService.Controllers
 {
@@ -32,15 +33,15 @@ namespace UserService.Controllers
                 return BadRequest("LOGIN.MISSING_PASSWORD");
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == loginModel.Username && x.Password == loginModel.Password);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == loginModel.Username && BC.Verify(x.Password, loginModel.Password, false, BCrypt.Net.HashType.SHA384));
             if (user == null)
             {
-                return BadRequest();
+                return BadRequest("LOGIN.INCORRECT_DETAILS");
             }
 
             if (user.VerifyEmailToken != null)
             {
-                // Maybe resent mail idk
+                // Maybe resent mail
                 return Unauthorized("LOGIN.UNVERIFIED_ACCOUNT");
             }
 

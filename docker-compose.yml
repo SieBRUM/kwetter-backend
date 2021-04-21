@@ -8,6 +8,13 @@ services:
           ports:
             - "7100:15672"
             - "7101:5672"
+    logserver:
+        image: datalust/seq:latest
+        container_name: logserver
+        ports:
+            - "5341:80"
+        environment:
+            - ACCEPT_EULA=Y
     user-service:
         build:
             context: ./UserService

@@ -25,5 +25,12 @@ namespace UserService.Database
 
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .Property(c => c.Created)
+                .HasDefaultValueSql("getdate()");
+        }
     }
 }

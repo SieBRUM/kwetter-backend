@@ -19,7 +19,7 @@ namespace UserService.Database
         [Required]
         public string Password { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         public Guid? VerifyEmailToken { get; set; }
 

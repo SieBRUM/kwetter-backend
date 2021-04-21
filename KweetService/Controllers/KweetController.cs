@@ -24,8 +24,8 @@ namespace KweetService.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<Kweet>>> GetKweets()
         {
-            string username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return await _dbContext.Kweets.ToListAsync();
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return await _dbContext.Kweets.Where(x => x.UserId == int.Parse(userId)).ToListAsync();
         }
 
         [HttpGet("{kweetId}")]
