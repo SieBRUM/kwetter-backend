@@ -6,8 +6,8 @@ services:
           volumes:
             - rabbitmq:/rabbitmq
           ports:
-            - "7100:15672"
-            - "7101:5672"
+            - "15672:15672"
+            - "5672:5672"
     logserver:
         image: datalust/seq:latest
         container_name: logserver
@@ -17,7 +17,7 @@ services:
             - ACCEPT_EULA=Y
     user-service:
         build:
-            context: ./UserService
+            context: .
             dockerfile: Dockerfile
         container_name: userservice
         ports:

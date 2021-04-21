@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using Shared.Messaging;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,36 +19,40 @@ namespace UserService.Controllers
     {
         private readonly UserServiceDatabaseContext _context;
         private readonly ILogger<UserController> _logger;
+        private readonly IMessagePublisher _messagePublisher;
 
-        public UserController(UserServiceDatabaseContext context, ILogger<UserController> logger)
+        public UserController(UserServiceDatabaseContext context, ILogger<UserController> logger, IMessagePublisher messagePublisher)
         {
             _context = context;
             _logger = logger;
+            _messagePublisher = messagePublisher;
         }
 
         [HttpGet]
         public async Task<IActionResult> Test()
         {
-            _logger.LogInformation("Entering 'test' method");
-            _logger.LogInformation("Building factory");
-            var factory = new ConnectionFactory();
-            factory.UserName = "guest";
-            factory.Password = "guest";
-            var endpoints = new System.Collections.Generic.List<AmqpTcpEndpoint> {
-                      new AmqpTcpEndpoint("rabbitmq"),
-                      new AmqpTcpEndpoint("localhost")
-                };
-            factory.Port = AmqpTcpEndpoint.UseDefaultPort;
-            _logger.LogInformation("Opening connection...");
-            using var connection = factory.CreateConnection(endpoints);
-            _logger.LogInformation("Opening channel...");
-            using var channel = connection.CreateModel();
-            channel.QueueDeclare("user-queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
-            var message = new { Id = 1, Username = "Siebren" };
-            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-            _logger.LogInformation("Publishing message...");
-            channel.BasicPublish("", "user-queue", null, body);
-            _logger.LogInformation("Returning OK");
+            //_logger.LogInformation("Entering 'test' method");
+            //_logger.LogInformation("Building factory");
+            //var factory = new ConnectionFactory();
+            //factory.UserName = "guest";
+            //factory.Password = "guest";
+            //var endpoints = new System.Collections.Generic.List<AmqpTcpEndpoint> {
+            //          new AmqpTcpEndpoint("rabbitmq"),
+            //          new AmqpTcpEndpoint("localhost")
+            //    };
+            //factory.Port = AmqpTcpEndpoint.UseDefaultPort;
+            //_logger.LogInformation("Opening connection...");
+            //using var connection = factory.CreateConnection(endpoints);
+            //_logger.LogInformation("Opening channel...");
+            //using var channel = connection.CreateModel();
+            //channel.QueueDeclare("user-queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+            //var message = new { Id = 1, Username = "Siebren" };
+            //var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            //_logger.LogInformation("Publishing message...");
+            //channel.BasicPublish("", "user-queue", null, body);
+            //_logger.LogInformation("Returning OK");
+
+            await _messagePublisher.PublishMessageAsync("", new { Id = 1, Username = "Siebren XD" });
             return Ok(new { });
         }
 

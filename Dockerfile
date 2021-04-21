@@ -4,10 +4,11 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["UserService.csproj", ""]
-RUN dotnet restore "./UserService.csproj"
+COPY ["UserService/UserService.csproj", "UserService/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
+RUN dotnet restore "UserService/UserService.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/UserService"
 RUN dotnet build "UserService.csproj" -c Release -o /app/build
 
 FROM build AS publish

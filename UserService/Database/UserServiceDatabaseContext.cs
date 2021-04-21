@@ -21,7 +21,7 @@ namespace UserService.Database
         {
             if(!optionsBuilder.IsConfigured)
                 // TODO: Change Pwd location
-                optionsBuilder.UseSqlServer("server=sqlserver, 1433;user id=sa;password=Your_password123;database=UserService;");
+                optionsBuilder.UseSqlServer("server=127.0.0.1, 1433;user id=sa;password=Your_password123;database=UserService;");
 
             base.OnConfiguring(optionsBuilder);
         }

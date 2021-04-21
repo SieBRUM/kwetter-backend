@@ -1,6 +1,7 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace MailService
@@ -11,11 +12,19 @@ namespace MailService
         {
             var factory = new ConnectionFactory
             {
-                Uri = new Uri("amqp://guest:guest@localhost:7101")
+                UserName = "guest",
+                Password = "guest",
+                Port = AmqpTcpEndpoint.UseDefaultPort,
+                AutomaticRecoveryEnabled = true
             };
-            using var connection = factory.CreateConnection();
+            var endpoints = new List<AmqpTcpEndpoint>
+                {
+                          new AmqpTcpEndpoint("rabbitmq"),
+                          new AmqpTcpEndpoint("localhost")
+                };
+            using var connection = factory.CreateConnection(endpoints);
             using var channel = connection.CreateModel();
-            channel.QueueDeclare("user-queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare("UserService", durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (sender, e) =>
@@ -24,7 +33,7 @@ namespace MailService
                 var message = Encoding.UTF8.GetString(body);
                 Console.WriteLine(message);
             };
-            channel.BasicConsume("user-queue", true, consumer);
+            channel.BasicConsume("UserService", true, consumer);
             Console.ReadLine();
         }
     }

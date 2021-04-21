@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Shared;
 using System.Text;
 using UserService.Database;
 
@@ -55,6 +56,7 @@ namespace UserService
 
             services.AddControllers();
             services.AddDbContext<UserServiceDatabaseContext>();
+            services.AddMessagePublishing("UserService");
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserService", Version = "v1" });
