@@ -8,6 +8,7 @@ namespace MailService.Messages
 {
     class Test
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
     }
 }

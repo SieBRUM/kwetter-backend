@@ -31,7 +31,7 @@ namespace UserService.Controllers
         [HttpGet]
         public async Task<IActionResult> Test()
         {
-            await _messagePublisher.PublishMessageAsync("TestEvent", new { Id = 1, Username = "Siebren XD" });
+            await _messagePublisher.PublishMessageAsync("TestEvent", new { Id = 1, Username = "Siebren" });
             return Ok(new { });
         }
 

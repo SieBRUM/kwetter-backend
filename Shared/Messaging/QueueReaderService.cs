@@ -42,6 +42,7 @@ namespace Shared.Messaging
         {
             // Create a channel for this reader
             _channel = _connection.CreateChannel();
+            _channel.ExchangeDeclare(RabbitMqMessagePublisher.EXCHANGE_NAME, "fanout", durable: true);
 
             // Create a consumer for the queue. This is a method implemented by RabbitMQ.Client to easily subscribe to incoming messages on this queue
             var consumer = new EventingBasicConsumer(_channel);
@@ -62,6 +63,7 @@ namespace Shared.Messaging
             };
 
             _channel.QueueDeclare(_queueName.Name, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            _channel.QueueBind(_queueName.Name, RabbitMqMessagePublisher.EXCHANGE_NAME, routingKey: string.Empty);
             // On the provided queue name, register our consumer as a consumer.
             _channel.BasicConsume(_queueName.Name, false, consumer);
             return Task.CompletedTask;
@@ -92,7 +94,7 @@ namespace Shared.Messaging
                 {
                     // Retrieve the IMessageHandler from the service provider, using this way we can easily get scoped services like DbContext.
                     var handler = scope.ServiceProvider.GetService(implementingHandler) as IMessageHandler;
-                    handler.HandleMessageAsync(messageType, message.Body.ToArray()).GetAwaiter().GetResult();
+                    handler.HandleMessageAsync(messageType, message.Body).GetAwaiter().GetResult();
                 }
                 _logger.LogInformation("Message with message type {MessageType} was successfully handled.", messageType);
                 return true;

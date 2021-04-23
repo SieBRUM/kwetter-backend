@@ -28,9 +28,9 @@ namespace MailService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MailService", Version = "v1" });
             });
-            services.AddMessagePublishing("UserService", builder => 
+            services.AddMessagePublishing("MailingService", builder => 
             {
-                builder.WithHandler<TestingHandler>("TestEvent", "UserService");
+                builder.WithHandler<TestingHandler>("TestEvent");
             });
         }
 

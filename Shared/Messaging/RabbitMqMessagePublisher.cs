@@ -7,6 +7,7 @@ namespace Shared.Messaging
 {
     internal class RabbitMqMessagePublisher : IMessagePublisher
     {
+        public const string EXCHANGE_NAME = "Kwetter";
         private readonly string _queueName;
         private readonly RabbitMqConnection _connection;
 
@@ -19,6 +20,10 @@ namespace Shared.Messaging
         public Task PublishMessageAsync<T>(string messageType, T value)
         {
             using var channel = _connection.CreateChannel();
+            channel.ExchangeDeclare(EXCHANGE_NAME, "fanout", durable: true);
+            channel.QueueDeclare(_queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueBind(_queueName, EXCHANGE_NAME, routingKey: string.Empty);
+
             var message = channel.CreateBasicProperties();
             message.ContentType = "application/json";
             message.DeliveryMode = 2;
@@ -26,9 +31,8 @@ namespace Shared.Messaging
             message.Headers = new Dictionary<string, object> { ["MessageType"] = messageType };
             var body = JsonSerializer.SerializeToUtf8Bytes(value);
 
-            channel.QueueDeclare(_queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
             // Publish this without a routing key to the rabbitmq broker
-            channel.BasicPublish("", _queueName, message, body);
+            channel.BasicPublish(EXCHANGE_NAME, _queueName, message, body);
             return Task.CompletedTask;
         }
     }
