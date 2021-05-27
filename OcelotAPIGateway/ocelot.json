@@ -2,7 +2,7 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/kweet/timeline",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "kwetter-kweet-service",
@@ -13,7 +13,7 @@
     },
     {
       "DownstreamPathTemplate": "/user",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "kwetter-user-service",
@@ -24,7 +24,7 @@
     },
     {
       "DownstreamPathTemplate": "/authentication/login",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "kwetter-user-service",
