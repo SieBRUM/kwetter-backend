@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace UserService.Database
 {
@@ -19,9 +20,16 @@ namespace UserService.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if(!optionsBuilder.IsConfigured)
-                // TODO: Change Pwd location
-                optionsBuilder.UseSqlServer("server=127.0.0.1, 1433;user id=sa;password=Your_password123;database=UserService;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                var dbString = Environment.GetEnvironmentVariable("kwetter_db_string");
+                if (string.IsNullOrWhiteSpace(dbString))
+                {
+                    throw new MissingFieldException("Database environment variable not found.");
+                }
+
+                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("kwetter_db_string").Replace("DATABASE_NAME", "UserService"));
+            }
 
             base.OnConfiguring(optionsBuilder);
         }

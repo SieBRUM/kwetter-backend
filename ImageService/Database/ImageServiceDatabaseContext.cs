@@ -12,8 +12,17 @@ namespace ImageService.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // TODO: Change Pwd location
-            optionsBuilder.UseMySQL("Server=127.0.0.1;Database=Kweet;Uid=root;Pwd=root;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                var dbString = Environment.GetEnvironmentVariable("kwetter_db_string");
+                if (string.IsNullOrWhiteSpace(dbString))
+                {
+                    throw new MissingFieldException("Database environment variable not found.");
+                }
+
+                optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("kwetter_db_string").Replace("DATABASE_NAME", "ImageService"));
+            }
+
             base.OnConfiguring(optionsBuilder);
         }
     }

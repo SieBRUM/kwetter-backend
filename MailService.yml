@@ -1,0 +1,54 @@
+name: Build and release MailService 
+
+on:
+  push:
+    paths:
+      - "EmailService/**"
+      - ".github/workflows/MailService.yml"
+
+env:
+  AUTH_PATH: 'MailService/MailService.csproj'
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_EMAIL_SERVICE }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Install dotnet'
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: 'Restore packages'
+      run: dotnet restore ${{ env.AUTH_PATH }}
+
+    - name: 'Build project'
+      run: dotnet build ${{ env.AUTH_PATH }} --no-restore --configuration Release
+
+    - name: SonarScanner for .NET 5
+      uses: highbyte/sonarscan-dotnet@2.0
+      with:
+        sonarProjectKey: siebrum-mail-service
+        sonarProjectName: mail-service
+        sonarOrganization: siebrum
+        dotnetBuildArguments: ./MailService
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: MailService
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/kwetter-mail-service:latest
