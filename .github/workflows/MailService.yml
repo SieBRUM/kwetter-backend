@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "MailService/**"
+      - "Shared/**"
       - ".github/workflows/MailService.yml"
 
 env:

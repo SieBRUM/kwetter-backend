@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "ImageService/**"
+      - "Shared/**"
       - ".github/workflows/ImageService.yml"
 
 env:

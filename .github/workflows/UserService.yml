@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "UserService/**"
+      - "Shared/**"
       - ".github/workflows/UserService.yml"
 
 env:

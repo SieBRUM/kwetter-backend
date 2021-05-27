@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "KweetService/**"
+      - "Shared/**"
       - ".github/workflows/KweetService.yml"
 
 env:

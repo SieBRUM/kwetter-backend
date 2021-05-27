@@ -30,7 +30,8 @@ namespace Shared.Messaging
                 var endpoints = new List<AmqpTcpEndpoint> 
                 {
                           new AmqpTcpEndpoint("rabbitmq"),
-                          new AmqpTcpEndpoint("localhost")
+                          new AmqpTcpEndpoint("localhost"),
+                          new AmqpTcpEndpoint("production-rabbitmqcluster")
                 };
                 _connection = factory.CreateConnection(endpoints);
             }
