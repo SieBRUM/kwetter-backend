@@ -3,12 +3,12 @@ name: Build and release MailService
 on:
   push:
     paths:
-      - "EmailService/**"
+      - "MailService/**"
       - ".github/workflows/MailService.yml"
 
 env:
-  AUTH_PATH: 'MailService/MailService.csproj'
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_EMAIL_SERVICE }}
+  PROJECT_PATH: 'MailService/MailService.csproj'
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_MAIL_SERVICE }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -24,15 +24,15 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: 'Restore packages'
-      run: dotnet restore ${{ env.AUTH_PATH }}
+      run: dotnet restore ${{ env.PROJECT_PATH }}
 
     - name: 'Build project'
-      run: dotnet build ${{ env.AUTH_PATH }} --no-restore --configuration Release
+      run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
     - name: SonarScanner for .NET 5
       uses: highbyte/sonarscan-dotnet@2.0
       with:
-        sonarProjectKey: siebrum-mail-service
+        sonarProjectKey: siebrum_kwetter-mail-service
         sonarProjectName: mail-service
         sonarOrganization: siebrum
         dotnetBuildArguments: ./MailService
