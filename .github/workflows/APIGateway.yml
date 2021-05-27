@@ -39,6 +39,6 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
-        context: APIGateway
+        context: OcelotAPIGateway
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/kwetter-api-gateway:latest
