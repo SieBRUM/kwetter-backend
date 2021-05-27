@@ -8,7 +8,7 @@ namespace MailService.MessageHandlers
     {
         public async Task HandleMessageAsync(string messageType, T message)
         {
-            Console.WriteLine("Testing!");
+            Console.WriteLine($"Message with type {typeof(T)} received, starting handle...");
             Command(message);
         }
 

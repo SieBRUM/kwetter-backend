@@ -7,7 +7,14 @@ namespace MailService.MessageHandlers
     {
         protected override void Command(Test message)
         {
-            Console.WriteLine("====================== TestingHandler =============================");
+            if(message != null)
+            {
+                Console.WriteLine($"Received message with id {message.Id} and name {message.Username} ");
+            }
+            else
+            {
+                Console.WriteLine($"Received message but value was null! ");
+            }
         }
     }
 }
