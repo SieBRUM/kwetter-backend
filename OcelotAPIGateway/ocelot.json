@@ -5,8 +5,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44354
+          "Host": "kwetter-kweet-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/kweet/timeline"
@@ -16,8 +16,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44389
+          "Host": "kwetter-user-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/user"
@@ -27,8 +27,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44389
+          "Host": "kwetter-user-service",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/authentication/login"
