@@ -1,0 +1,40 @@
+﻿{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/kweet/timeline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "http://localhost",
+          "Port": 56005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/kweet/timeline"
+    },
+    {
+      "DownstreamPathTemplate": "/user",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "http://localhost",
+          "Port": 59423
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user"
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "http://localhost",
+          "Port": 59423
+        }
+      ],
+      "UpstreamPathTemplate": "/api/authentication/login"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:56005"
+  }
+}

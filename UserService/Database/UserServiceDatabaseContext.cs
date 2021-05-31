@@ -32,6 +32,12 @@ namespace UserService.Database
             }
 
             base.OnConfiguring(optionsBuilder);
+
+
+            //if (!optionsBuilder.IsConfigured)
+            //    optionsBuilder.UseNpgsql("Host=localhost;Database=UserService;Username=postgres;Password=root");
+            //base.OnConfiguring(optionsBuilder);
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

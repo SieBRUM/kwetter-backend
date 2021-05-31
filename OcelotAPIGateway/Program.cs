@@ -16,7 +16,7 @@ namespace OcelotAPIGateway
             Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((host, config) =>
             {
-                config.AddJsonFile("ocelot.json");
+                config.AddJsonFile($"ocelot.{host.HostingEnvironment.EnvironmentName}.json", false, true);
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
